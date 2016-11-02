@@ -13,7 +13,7 @@ Can identify words by root (eg focus = focuses, focused)
 
 # Modules to open, read docx files, count words, remove trash
 from docx import Document
-from collections import defaultdict
+from collections import defaultdict, OrderedDict
 import re
 import common_words as cw
 
@@ -95,13 +95,14 @@ def parse_words(text):
 
 # Create categories of word group
 # TODO: Prettify output 
-def format_words(word_group):
+def format_words(words):
     print("""
     Word: # of occurances
     ---------------------
             """)
     
-    for word, rep in word_group.items():
+    sorted_words = [(w, words[w]) for w in sorted(words, key=words.get, reverse=True)]
+    for word, rep in sorted_words:
         print("\t{}: {}".format(word, rep))
 
 # Main engine, drill down, retrieve synonyms
